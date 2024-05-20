@@ -1,0 +1,20 @@
+spring:
+    application:
+        name : instagram
+    datasource:
+        url: jdbc:postgresql://localhost:5432/instagram
+        username: postgres
+        password: 1313
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            maximum_pool_size: 30
+    jpa:
+        properties:
+            hibernate:
+                show_sql : true
+                format_sql : true
+        hibernate:
+            ddl-auto: update
+        show_sql: true
+secret:
+    key: wfegrsgrsgrhdtjsfiushfjs656545GEFEFWRWEWEWEWWEWEW

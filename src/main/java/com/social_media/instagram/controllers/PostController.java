@@ -25,8 +25,8 @@ public class PostController {
     private final PostService postService;
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Header<?> save(@AuthenticationPrincipal User user, @RequestBody PostReq post){
-        return Header.created(postService.save(user, post));
+    public Header<?> save(@AuthenticationPrincipal User user, @RequestBody Header<PostReq> post){
+        return Header.created(postService.save(user, post.data));
     }
     @GetMapping
     public Header<?> getAllMine(@AuthenticationPrincipal User user,
@@ -42,7 +42,7 @@ public class PostController {
     }
     @PutMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Header<?> update(@AuthenticationPrincipal User user, @RequestBody PostUpdateReq request){
-        return Header.modifying(postService.updateById(user, request));
+    public Header<?> update(@AuthenticationPrincipal User user, @RequestBody Header<PostUpdateReq> request){
+        return Header.modifying(postService.updateById(user, request.data));
     }
 }

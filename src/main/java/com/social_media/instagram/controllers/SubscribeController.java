@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class SubscribeController {
     private final SubscribeService subscribeService;
     @PutMapping
-    public Header<?> follow(@RequestBody SubscribeReq request, @AuthenticationPrincipal User user) {
-        return Header.modifying(subscribeService.follow(request, user));
+    public Header<?> follow(@RequestBody Header<SubscribeReq> request, @AuthenticationPrincipal User user) {
+        return Header.modifying(subscribeService.follow(request.data, user));
     }
 }

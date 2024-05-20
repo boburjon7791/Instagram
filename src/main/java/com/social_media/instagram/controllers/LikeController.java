@@ -18,7 +18,7 @@ public class LikeController {
     private final LikeService likeService;
     @PutMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Header<?> likeButton(@RequestBody LikeReq like, @AuthenticationPrincipal User user){
-        return Header.modifying(likeService.likeButton(like, user));
+    public Header<?> likeButton(@RequestBody Header<LikeReq> like, @AuthenticationPrincipal User user){
+        return Header.modifying(likeService.likeButton(like.data, user));
     }
 }

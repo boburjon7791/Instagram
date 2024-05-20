@@ -18,8 +18,8 @@ public class UserController {
     private final UserService userService;
     @PutMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Header<?> update(@AuthenticationPrincipal User user, @RequestBody UserUpdateReq request){
-        return Header.modifying(userService.update(user, request));
+    public Header<?> update(@AuthenticationPrincipal User user, @RequestBody Header<UserUpdateReq> request){
+        return Header.modifying(userService.update(user, request.data));
     }
     @DeleteMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)

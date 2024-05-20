@@ -11,7 +11,7 @@ public class Header<T> {
     Timestamp timestamp;
     int responseCode;
     String responseMessage;
-    T data;
+    public T data;
     PaginationData pagination;
     public static <T> Header<T> created(T data){
         return Header.<T>builder()

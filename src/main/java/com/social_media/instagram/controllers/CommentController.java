@@ -24,8 +24,8 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Header<?> save(@RequestBody CommentReq request, @AuthenticationPrincipal User user) {
-        return Header.created(commentService.createComment(request, user));
+    public Header<?> save(@RequestBody Header<CommentReq> request, @AuthenticationPrincipal User user) {
+        return Header.created(commentService.createComment(request.data, user));
     }
     @GetMapping
     public Header<?> getAll(@AuthenticationPrincipal User user,

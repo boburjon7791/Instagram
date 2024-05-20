@@ -33,12 +33,12 @@ public class AuthController {
     }
     @PostMapping("/register")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Header<?> register(@Valid @RequestBody UserReq user) {
-        return Header.created(authService.register(user));
+    public Header<?> register(@Valid @RequestBody Header<UserReq> user) {
+        return Header.created(authService.register(user.data));
     }
     @GetMapping("/login")
-    public Header<?> login(@Valid @RequestBody LoginReq login) {
-        return Header.ok(authService.login(login));
+    public Header<?> login(@Valid @RequestBody Header<LoginReq> login) {
+        return Header.ok(authService.login(login.data));
     }
     @PutMapping("/refresh-token")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -47,8 +47,8 @@ public class AuthController {
     }
     @PutMapping("/change-password")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Header<?> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal User user){
-        authService.updatePassword(request, user);
+    public Header<?> changePassword(@RequestBody Header<ChangePasswordRequest> request, @AuthenticationPrincipal User user){
+        authService.updatePassword(request.data, user);
         return Header.modifying();
     }
 }

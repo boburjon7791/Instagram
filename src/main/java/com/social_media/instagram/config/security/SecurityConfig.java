@@ -81,20 +81,6 @@ public class SecurityConfig {
         };
     }
     @Bean
-    public WebMvcConfigurer webMvcConfigurer(){
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowCredentials(true)
-                        .maxAge(3600)
-                        .allowedHeaders("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
-            }
-        };
-    }
-    @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }

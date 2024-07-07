@@ -18,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +37,7 @@ public class AuthService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final SubscribeRepository subscribeRepository;
     private JwtProvider jwtProvider;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public void setJwtProvider(@Lazy JwtProvider jwtProvider) {
@@ -58,10 +62,7 @@ public class AuthService implements UserDetailsService {
         return new LoginRes(UserRes.from(UserDto.from(saved)), jwtProvider.generateToken(saved.getUsername()));
     }
     public LoginRes login(LoginReq login){
-        User user = loadUserByUsername(login.source());
-        if (!passwordEncoder.matches(login.password(), user.getPassword())) {
-            throw new BadRequestException(localization.getMessage("incorrect_password"));
-        }
+        User user=(User)authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.source(), login.password()));
         Map<String, String> tokens = jwtProvider.generateToken(user.getUsername());
         return new LoginRes(UserRes.from(UserDto.from(user)), tokens);
     }

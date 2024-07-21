@@ -1,18 +1,38 @@
 package com.social_media.instagram.model.common;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
+import com.social_media.instagram.exceptions.BadRequestException;
+import com.social_media.instagram.exceptions.ForbiddenException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Builder
-@AllArgsConstructor
 public class Header<T> {
     Timestamp timestamp;
     int responseCode;
     String responseMessage;
     public T data;
     PaginationData pagination;
+
+    public Header(Timestamp timestamp, int responseCode, String responseMessage, T data, PaginationData pagination) {
+        LocalDateTime transactionTime = ZonedDateTime.of(timestamp.toLocalDateTime(), ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime plussedSeconds = now.plusSeconds(30);
+        LocalDateTime minusSeconds = now.minusSeconds(30);
+        if (transactionTime.isBefore(minusSeconds) || transactionTime.isAfter(plussedSeconds)) {
+            throw new ForbiddenException("");
+        }
+        this.timestamp = timestamp;
+        this.responseCode = responseCode;
+        this.responseMessage = responseMessage;
+        this.data = data;
+        this.pagination = pagination;
+    }
+
     public static <T> Header<T> created(T data){
         return Header.<T>builder()
             .timestamp(new Timestamp(System.currentTimeMillis()))

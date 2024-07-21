@@ -4,7 +4,7 @@ spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/instagram
         username: postgres
-        password: 1313
+        password: 123
         driver-class-name: org.postgresql.Driver
         hikari:
             maximum_pool_size: 30

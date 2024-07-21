@@ -7,11 +7,13 @@ import java.time.ZonedDateTime;
 
 import com.social_media.instagram.exceptions.BadRequestException;
 import com.social_media.instagram.exceptions.ForbiddenException;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Builder
 public class Header<T> {
+    @NotNull
     Timestamp timestamp;
     int responseCode;
     String responseMessage;
